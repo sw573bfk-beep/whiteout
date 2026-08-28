@@ -702,9 +702,9 @@ function updateWorldVisual(dt){
   G.fov+=(tf-G.fov)*Math.min(1,dt*3.5);
   // keep the sled framed on wide/short viewports: pull back and flatten as aspect grows
   const asp=camera.aspect;
-  const cz=9.6+clamp((asp-1.65)*3.2,0,4.5);
-  const camH=4.3-clamp((asp-1.65)*0.55,0,1.1);
-  camera.fov=G.fov*clamp(1+(asp-1.65)*0.10,1,1.18);
+  const cz=9.6+clamp((asp-1.62)*5.5,0,8);
+  const camH=4.3-clamp((asp-1.62)*1.1,0,1.8);
+  camera.fov=G.fov*clamp(1+(asp-1.62)*0.10,1,1.18);
   camera.updateProjectionMatrix();
   const shake=G.shake;
   camera.position.set(
@@ -720,8 +720,10 @@ function updateWorldVisual(dt){
   $('speedfx').style.opacity=G.mode==='play'?String(clamp((G.speed-38)/60,0,.85)):'0';
 }
 
+let lastW=0,lastH=0;
 function frame(ts){
   requestAnimationFrame(frame);
+  if(innerWidth!==lastW||innerHeight!==lastH){ lastW=innerWidth; lastH=innerHeight; resize(); }
   const now=ts/1000;
   let dt=G.last?now-G.last:0; G.last=now;
   dt=Math.min(dt,0.05);
