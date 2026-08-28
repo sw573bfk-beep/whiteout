@@ -796,7 +796,7 @@ async function rankFor(score){
 }
 function renderLB(listEl,statusEl,mine){
   if(!lbData.length){
-    listEl.innerHTML='<li style="color:#5b6a80">no runs yet — be the first</li>';
+    listEl.innerHTML='<li style="color:#5b6a80;display:block">no runs yet — be the first</li>';
     if(statusEl) statusEl.textContent=''; return;
   }
   listEl.innerHTML='';
@@ -815,7 +815,7 @@ async function loadLB(listEl,statusEl,mine){
     lbData=await fetchLB(); renderLB(listEl,statusEl,mine);
   }catch(e){
     if(statusEl) statusEl.textContent='offline';
-    listEl.innerHTML='<li style="color:#5b6a80">leaderboard unavailable</li>';
+    listEl.innerHTML='<li style="color:#5b6a80;display:block">leaderboard unavailable</li>';
   }
 }
 
