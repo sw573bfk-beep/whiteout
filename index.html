@@ -700,11 +700,16 @@ function updateWorldVisual(dt){
   // camera
   const tf=clamp(66+(G.speed-27)*0.42+(G.boosting?7:0),66,98);
   G.fov+=(tf-G.fov)*Math.min(1,dt*3.5);
-  camera.fov=G.fov; camera.updateProjectionMatrix();
-  const cz=9.6, shake=G.shake;
+  // keep the sled framed on wide/short viewports: pull back and flatten as aspect grows
+  const asp=camera.aspect;
+  const cz=9.6+clamp((asp-1.65)*3.2,0,4.5);
+  const camH=4.3-clamp((asp-1.65)*0.55,0,1.1);
+  camera.fov=G.fov*clamp(1+(asp-1.65)*0.10,1,1.18);
+  camera.updateProjectionMatrix();
+  const shake=G.shake;
   camera.position.set(
     G.px*0.42+(shake?rnd(-shake,shake):0),
-    yFor(cz)+4.3+(shake?rnd(-shake,shake)*.6:0)+(G.mode==='crash'?G.crashT*1.2:0),
+    yFor(cz)+camH+(shake?rnd(-shake,shake)*.6:0)+(G.mode==='crash'?G.crashT*1.2:0),
     cz+(G.mode==='crash'?G.crashT*3:0)
   );
   camera.lookAt(G.px*0.3,yFor(-26)+0.6,-26);
